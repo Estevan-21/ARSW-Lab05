@@ -10,6 +10,9 @@ import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.impl.InMemoryBlueprintPersistence;
+import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
@@ -62,13 +65,31 @@ public class InMemoryPersistenceTest {
             ibpp.saveBlueprint(bp2);
             fail("An exception was expected after saving a second blueprint with the same name and autor");
         }
-        catch (BlueprintPersistenceException ex){
-            
-        }
-                
+        catch (BlueprintPersistenceException ex){            
+        }                    
+    }   
+    
+    @Test
+    public void getBlueprintTest() throws BlueprintPersistenceException, BlueprintNotFoundException{
+        InMemoryBlueprintPersistence ibpp=new InMemoryBlueprintPersistence();
+        Point[] pts0=new Point[]{new Point(40, 40),new Point(15, 15)};
+        Blueprint bp0=new Blueprint("mack", "mypaint",pts0);
+        ibpp.saveBlueprint(bp0);                        
+        assertEquals(bp0,ibpp.getBlueprint("mack", "mypaint"));
         
     }
+    
+    @Test
+    public void getBlueprintByAuthorTest() throws BlueprintPersistenceException, BlueprintNotFoundException{
+        InMemoryBlueprintPersistence ibpp=new InMemoryBlueprintPersistence();
+        Point[] pts0=new Point[]{new Point(40, 40),new Point(15, 15)};
+        Blueprint bp0=new Blueprint("mack", "mypaint",pts0);
+        ibpp.saveBlueprint(bp0);                        
+        List<Blueprint> blues=ibpp.getBlueprintsByAuthor("mack");
+        assertEquals(bp0,ibpp.getBlueprintsByAuthor("mack").get(0));
+    }
+}
 
 
     
-}
+
