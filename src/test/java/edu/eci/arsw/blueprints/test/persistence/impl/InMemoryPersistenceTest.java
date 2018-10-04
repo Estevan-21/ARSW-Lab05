@@ -93,7 +93,7 @@ public class InMemoryPersistenceTest {
     }
     
     @Test
-    public void getBlueprintFilteredA() throws BlueprintPersistenceException, BlueprintNotFoundException{
+    public void getBlueprintFilteredB() throws BlueprintPersistenceException, BlueprintNotFoundException{
         BlueprintsServices blue;
         ApplicationContext bp = new ClassPathXmlApplicationContext("applicationContext.xml");
         blue=bp.getBean(BlueprintsServices.class);
