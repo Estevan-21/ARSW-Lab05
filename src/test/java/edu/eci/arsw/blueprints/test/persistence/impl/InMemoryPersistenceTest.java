@@ -11,12 +11,15 @@ import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.impl.InMemoryBlueprintPersistence;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
+import edu.eci.arsw.blueprints.services.BlueprintsServices;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -87,6 +90,20 @@ public class InMemoryPersistenceTest {
         ibpp.saveBlueprint(bp0);                        
         List<Blueprint> blues=ibpp.getBlueprintsByAuthor("mack");
         assertEquals(bp0,ibpp.getBlueprintsByAuthor("mack").get(0));
+    }
+    
+    @Test
+    public void getBlueprintFilteredA() throws BlueprintPersistenceException, BlueprintNotFoundException{
+        BlueprintsServices blue;
+        ApplicationContext bp = new ClassPathXmlApplicationContext("applicationContext.xml");
+        blue=bp.getBean(BlueprintsServices.class);
+        Point[] pts0=new Point[]{new Point(30, 40),new Point(15, 15),new Point(15, 15),new Point(45, 60),new Point(90, 40)};
+        Blueprint bp0=new Blueprint("mack", "mypaint",pts0);  
+        blue.addNewBlueprint(bp0);
+        List<Point> points=blue.getBlueprintFiltered("mack", "mypaint").getPoints();
+        assertEquals(points.get(0).getX(),30); assertEquals(points.get(0).getY(),40);
+        assertEquals(points.get(1).getX(),15); assertEquals(points.get(1).getY(),15);
+        assertEquals(points.get(2).getX(),90); assertEquals(points.get(2).getY(),40);
     }
 }
 
