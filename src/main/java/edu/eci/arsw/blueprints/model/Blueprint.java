@@ -20,6 +20,12 @@ public class Blueprint {
         this.name=name;
         points=Arrays.asList(pnts);
     }
+    
+    public Blueprint(String author,String name,List<Point>pnts){
+        this.author=author;
+        this.name=name;
+        points=pnts;
+    }
          
     public Blueprint(String author, String name){
         this.name=name;
@@ -39,6 +45,10 @@ public class Blueprint {
     
     public List<Point> getPoints() {
         return points;
+    }
+    
+    public void setPoints(List<Point> pn){       
+        points=pn;
     }
     
     public void addPoint(Point p){
